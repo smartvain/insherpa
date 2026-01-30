@@ -6,7 +6,8 @@
   "scripts": {
     "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --outfile=dist/index.js --external:@aws-sdk/*",
     "zip": "cd dist && zip -r ../insherpa.zip index.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx --require dotenv/config src/local.ts"
   },
   "keywords": [
     "slack",
@@ -24,7 +25,9 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.145",
     "@types/node": "^20.0.0",
+    "dotenv": "^17.2.3",
     "esbuild": "^0.24.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.7.0"
   },
   "pnpm": {
