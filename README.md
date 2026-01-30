@@ -1,69 +1,71 @@
 # insherpa
 
-Slackスレッドのインシデント対応会話をAIで構造化し、Notionデータベースに保存・検索できるSlack Botです。
+A Slack bot that extracts incident knowledge from conversation threads using AI, structures it, and saves it to a Notion database for searchable incident history.
 
-## 機能
+[日本語版 README](./README.ja.md)
 
-- `/insh summary` — スレッド内で実行すると、会話内容をAIが分析し、症状・原因・対処などを構造化してNotionに保存します
-- `/insh search <キーワード>` — 過去のインシデントをキーワードで検索し、対処方法を即座に確認できます
+## Features
 
-## セットアップ
+- `/insh summary` — Run inside a thread to analyze the conversation with AI, extract structured knowledge (symptoms, cause, resolution, etc.), and save it to Notion
+- `/insh search <keyword>` — Search past incidents by keyword and instantly see how they were resolved
 
-### 1. Slack App の作成
+## Setup
 
-1. [Slack API](https://api.slack.com/apps) で新しいアプリを作成
-2. **OAuth & Permissions** で以下のBot Token Scopesを追加:
+### 1. Create a Slack App
+
+1. Create a new app at [Slack API](https://api.slack.com/apps)
+2. Add the following **Bot Token Scopes** under OAuth & Permissions:
    - `commands`
    - `channels:history`
    - `groups:history`
    - `chat:write`
-3. **Slash Commands** で `/insh` コマンドを作成:
+3. Create a Slash Command under **Slash Commands**:
    - Command: `/insh`
    - Request URL: `https://<your-api-gateway-url>/slack/events`
-   - Short Description: `インシデントナレッジの保存・検索`
+   - Short Description: `Save and search incident knowledge`
    - Usage Hint: `summary | search <keyword>`
-4. ワークスペースにアプリをインストールし、Bot User OAuth Tokenを控える
+4. Install the app to your workspace and note the Bot User OAuth Token
 
-### 2. Notion の準備
+### 2. Set Up Notion
 
-1. [Notion Integrations](https://www.notion.so/my-integrations) でインテグレーションを作成
-2. 以下のプロパティを持つデータベースを作成:
+1. Create an integration at [Notion Integrations](https://www.notion.so/my-integrations)
+2. Create a database with the following properties:
 
-| プロパティ名 | 種類 |
+| Property | Type |
 |---|---|
-| タイトル | タイトル |
-| 症状 | テキスト |
-| 原因 | テキスト |
-| 対処 | テキスト |
-| 深刻度 | セレクト（静観 / 要対応 / 緊急） |
-| 発生日時 | 日付 |
-| 対応者 | テキスト |
+| タイトル | Title |
+| 症状 | Text |
+| 原因 | Text |
+| 対処 | Text |
+| 深刻度 | Select (静観 / 要対応 / 緊急) |
+| 発生日時 | Date |
+| 対応者 | Text |
 | Slackスレッド | URL |
-| サービス | マルチセレクト |
-| エラーメッセージ | テキスト |
+| サービス | Multi-select |
+| エラーメッセージ | Text |
 
-3. データベースページでインテグレーションにアクセスを許可（Share → Invite）
+3. Share the database with your integration (Share → Invite)
 
 ### 3. OpenAI
 
-1. [OpenAI Platform](https://platform.openai.com/) でAPIキーを取得
+1. Get an API key from [OpenAI Platform](https://platform.openai.com/)
 
-### 4. AWS Lambda のデプロイ
+### 4. Deploy to AWS Lambda
 
-1. [GitHub Releases](../../releases) から最新の `insherpa.zip` をダウンロード
-2. AWS Lambda関数を作成:
-   - ランタイム: Node.js 20.x
-   - ハンドラー: `index.handler`
-   - メモリ: 256MB
-   - タイムアウト: 10秒
-3. `insherpa.zip` をアップロード
-4. 環境変数を設定（下記参照）
-5. API Gateway（HTTP API）を作成し、POSTルートをLambdaに接続
-6. API GatewayのURLをSlack AppのRequest URLに設定
+1. Download the latest `insherpa.zip` from [GitHub Releases](../../releases)
+2. Create an AWS Lambda function:
+   - Runtime: Node.js 20.x
+   - Handler: `index.handler`
+   - Memory: 256MB
+   - Timeout: 10 seconds
+3. Upload `insherpa.zip`
+4. Set environment variables (see below)
+5. Create an API Gateway (HTTP API) and connect a POST route to the Lambda
+6. Set the API Gateway URL as the Request URL in your Slack App
 
-## 環境変数
+## Environment Variables
 
-| 変数名 | 説明 |
+| Variable | Description |
 |---|---|
 | `SLACK_BOT_TOKEN` | Slack Bot User OAuth Token (`xoxb-...`) |
 | `SLACK_SIGNING_SECRET` | Slack App Signing Secret |
@@ -71,26 +73,26 @@ Slackスレッドのインシデント対応会話をAIで構造化し、Notion�
 | `NOTION_TOKEN` | Notion Integration Token |
 | `NOTION_DATABASE_ID` | Notion Database ID |
 
-## 開発
+## Development
 
-### 必要なもの
+### Prerequisites
 
 - Node.js 20+
 - pnpm
 
-### ビルド
+### Build
 
 ```sh
 pnpm install
 pnpm build
 ```
 
-### 型チェック
+### Type Check
 
 ```sh
 pnpm typecheck
 ```
 
-## ライセンス
+## License
 
 MIT
