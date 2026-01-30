@@ -33,16 +33,16 @@ A Slack bot that extracts incident knowledge from conversation threads using AI,
 
 | Property | Type |
 |---|---|
-| タイトル | Title |
-| 症状 | Text |
-| 原因 | Text |
-| 対処 | Text |
-| 深刻度 | Select (静観 / 要対応 / 緊急) |
-| 発生日時 | Date |
-| 対応者 | Text |
-| Slackスレッド | URL |
-| サービス | Multi-select |
-| エラーメッセージ | Text |
+| Title | Title |
+| Symptoms | Text |
+| Cause | Text |
+| Resolution | Text |
+| Severity | Select (monitor / action_required / critical) |
+| Occurred At | Date |
+| Responder | Text |
+| Slack Thread | URL |
+| Services | Multi-select |
+| Error Message | Text |
 
 3. Share the database with your integration (Share → Invite)
 

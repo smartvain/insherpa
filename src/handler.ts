@@ -35,7 +35,7 @@ app.command("/insh", async ({ command, ack, respond, client }) => {
 
     default:
       await ack({
-        text: "使用方法: `/insh summary` または `/insh search <キーワード>`",
+        text: "Usage: `/insh summary` or `/insh search <keyword>`",
       });
       break;
   }

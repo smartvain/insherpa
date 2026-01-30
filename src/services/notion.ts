@@ -16,34 +16,34 @@ export async function saveIncident(
   const response = await notion.pages.create({
     parent: { database_id: databaseId },
     properties: {
-      タイトル: {
+      Title: {
         title: [{ text: { content: truncate(incident.title) } }],
       },
-      症状: {
+      Symptoms: {
         rich_text: [{ text: { content: truncate(incident.symptoms) } }],
       },
-      原因: {
+      Cause: {
         rich_text: [{ text: { content: truncate(incident.cause) } }],
       },
-      対処: {
+      Resolution: {
         rich_text: [{ text: { content: truncate(incident.resolution) } }],
       },
-      深刻度: {
+      Severity: {
         select: { name: incident.severity },
       },
-      発生日時: incident.occurred_at
+      "Occurred At": incident.occurred_at
         ? { date: { start: incident.occurred_at } }
         : { date: null },
-      対応者: {
+      Responder: {
         rich_text: [{ text: { content: truncate(incident.responder) } }],
       },
-      Slackスレッド: {
+      "Slack Thread": {
         url: slackThreadUrl,
       },
-      サービス: {
+      Services: {
         multi_select: incident.services.map((s) => ({ name: s })),
       },
-      エラーメッセージ: {
+      "Error Message": {
         rich_text: [{ text: { content: truncate(incident.error_message) } }],
       },
     },
@@ -59,11 +59,11 @@ export async function searchIncidents(
     database_id: databaseId,
     filter: {
       or: [
-        { property: "タイトル", title: { contains: keyword } },
-        { property: "症状", rich_text: { contains: keyword } },
-        { property: "原因", rich_text: { contains: keyword } },
-        { property: "対処", rich_text: { contains: keyword } },
-        { property: "エラーメッセージ", rich_text: { contains: keyword } },
+        { property: "Title", title: { contains: keyword } },
+        { property: "Symptoms", rich_text: { contains: keyword } },
+        { property: "Cause", rich_text: { contains: keyword } },
+        { property: "Resolution", rich_text: { contains: keyword } },
+        { property: "Error Message", rich_text: { contains: keyword } },
       ],
     },
     sorts: [{ timestamp: "created_time", direction: "descending" }],
@@ -71,10 +71,10 @@ export async function searchIncidents(
   });
 
   return response.results.map((page: any) => ({
-    title: page.properties["タイトル"].title[0]?.plain_text ?? "",
-    resolution: page.properties["対処"].rich_text[0]?.plain_text ?? "",
+    title: page.properties["Title"].title[0]?.plain_text ?? "",
+    resolution: page.properties["Resolution"].rich_text[0]?.plain_text ?? "",
     url: page.url,
-    severity: page.properties["深刻度"].select?.name ?? "",
-    occurred_at: page.properties["発生日時"].date?.start ?? "",
+    severity: page.properties["Severity"].select?.name ?? "",
+    occurred_at: page.properties["Occurred At"].date?.start ?? "",
   }));
 }

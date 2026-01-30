@@ -33,16 +33,16 @@ Slackスレッドのインシデント対応会話をAIで構造化し、Notion�
 
 | プロパティ名 | 種類 |
 |---|---|
-| タイトル | タイトル |
-| 症状 | テキスト |
-| 原因 | テキスト |
-| 対処 | テキスト |
-| 深刻度 | セレクト（静観 / 要対応 / 緊急） |
-| 発生日時 | 日付 |
-| 対応者 | テキスト |
-| Slackスレッド | URL |
-| サービス | マルチセレクト |
-| エラーメッセージ | テキスト |
+| Title | タイトル |
+| Symptoms | テキスト |
+| Cause | テキスト |
+| Resolution | テキスト |
+| Severity | セレクト（monitor / action_required / critical） |
+| Occurred At | 日付 |
+| Responder | テキスト |
+| Slack Thread | URL |
+| Services | マルチセレクト |
+| Error Message | テキスト |
 
 3. データベースページでインテグレーションにアクセスを許可（Share → Invite）
 

@@ -10,7 +10,7 @@ export async function handleSummary({
 }: SummaryCommandArgs): Promise<void> {
   if (!command.thread_ts) {
     await respond({
-      text: ":warning: このコマンドはスレッド内で使用してください。",
+      text: ":warning: Please use this command inside a thread.",
       response_type: "ephemeral",
     });
     return;
@@ -29,22 +29,22 @@ export async function handleSummary({
     const notionUrl = await saveIncident(incident, threadUrl);
 
     await respond({
-      text: `インシデントナレッジを保存しました: ${notionUrl}`,
+      text: `Incident knowledge saved: ${notionUrl}`,
       blocks: [
         {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `:white_check_mark: *インシデントナレッジを保存しました*`,
+            text: `:white_check_mark: *Incident knowledge saved*`,
           },
         },
         {
           type: "section",
           fields: [
-            { type: "mrkdwn", text: `*タイトル:*\n${incident.title}` },
-            { type: "mrkdwn", text: `*深刻度:*\n${incident.severity}` },
-            { type: "mrkdwn", text: `*原因:*\n${incident.cause}` },
-            { type: "mrkdwn", text: `*対処:*\n${incident.resolution}` },
+            { type: "mrkdwn", text: `*Title:*\n${incident.title}` },
+            { type: "mrkdwn", text: `*Severity:*\n${incident.severity}` },
+            { type: "mrkdwn", text: `*Cause:*\n${incident.cause}` },
+            { type: "mrkdwn", text: `*Resolution:*\n${incident.resolution}` },
           ],
         },
         {
@@ -52,7 +52,7 @@ export async function handleSummary({
           elements: [
             {
               type: "button",
-              text: { type: "plain_text", text: "Notionで開く" },
+              text: { type: "plain_text", text: "Open in Notion" },
               url: notionUrl,
             },
           ],
@@ -64,7 +64,7 @@ export async function handleSummary({
     console.error("Summary command error:", error);
 
     const message =
-      error instanceof Error ? error.message : "不明なエラーが発生しました。";
+      error instanceof Error ? error.message : "An unknown error occurred.";
     await respond({
       text: `:x: エラー: ${message}`,
       response_type: "ephemeral",

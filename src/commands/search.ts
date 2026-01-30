@@ -7,7 +7,7 @@ export async function handleSearch({
 }: SearchCommandArgs): Promise<void> {
   if (!keyword) {
     await respond({
-      text: "使用方法: `/insh search <キーワード>`",
+      text: "Usage: `/insh search <keyword>`",
       response_type: "ephemeral",
     });
     return;
@@ -18,7 +18,7 @@ export async function handleSearch({
 
     if (results.length === 0) {
       await respond({
-        text: `:mag: 「${keyword}」に一致するインシデントは見つかりませんでした。`,
+        text: `:mag: No incidents found matching "${keyword}".`,
         response_type: "ephemeral",
       });
       return;
@@ -29,7 +29,7 @@ export async function handleSearch({
         type: "section" as const,
         text: {
           type: "mrkdwn" as const,
-          text: `:mag: *「${keyword}」の検索結果: ${results.length}件*`,
+          text: `:mag: *Search results for "${keyword}": ${results.length} found*`,
         },
       },
       ...results.flatMap((r) => [
@@ -38,11 +38,11 @@ export async function handleSearch({
           type: "section" as const,
           text: {
             type: "mrkdwn" as const,
-            text: `*${r.title}*\n深刻度: ${r.severity} | ${r.occurred_at || "日時不明"}\n対処: ${r.resolution}`,
+            text: `*${r.title}*\nSeverity: ${r.severity} | ${r.occurred_at || "Unknown"}\nResolution: ${r.resolution}`,
           },
           accessory: {
             type: "button" as const,
-            text: { type: "plain_text" as const, text: "Notionで開く" },
+            text: { type: "plain_text" as const, text: "Open in Notion" },
             url: r.url,
           },
         },
@@ -50,7 +50,7 @@ export async function handleSearch({
     ];
 
     await respond({
-      text: `「${keyword}」の検索結果: ${results.length}件`,
+      text: `Search results for "${keyword}": ${results.length} found`,
       blocks,
       response_type: "in_channel",
     });
@@ -58,7 +58,7 @@ export async function handleSearch({
     console.error("Search command error:", error);
 
     await respond({
-      text: ":x: 検索中にエラーが発生しました。しばらくしてから再度お試しください。",
+      text: ":x: An error occurred while searching. Please try again later.",
       response_type: "ephemeral",
     });
   }

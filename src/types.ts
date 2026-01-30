@@ -6,7 +6,7 @@ export interface IncidentKnowledge {
   symptoms: string;
   cause: string;
   resolution: string;
-  severity: "静観" | "要対応" | "緊急";
+  severity: "monitor" | "action_required" | "critical";
   occurred_at: string;
   responder: string;
   services: string[];
