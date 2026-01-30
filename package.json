@@ -1,0 +1,35 @@
+{
+  "name": "insherpa",
+  "version": "0.1.0",
+  "description": "Slack bot that extracts incident knowledge from threads and saves to Notion",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild src/handler.ts --bundle --platform=node --target=node20 --outfile=dist/index.js --external:@aws-sdk/*",
+    "zip": "cd dist && zip -r ../insherpa.zip index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "slack",
+    "incident",
+    "notion",
+    "knowledge-base"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "@slack/bolt": "^3.22.0",
+    "@slack/web-api": "^6.13.0",
+    "openai": "^4.77.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
